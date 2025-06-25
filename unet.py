@@ -31,10 +31,13 @@ class ExpansionBlock(nn.Module):
         )
 
     def forward(self, e, d):
+        # print("Begin, e.size:",e.shape, ", d.size:", d.shape)
         d = self.up(d)
         diffY = e.size()[2] - d.size()[2]
         diffX = e.size()[3] - d.size()[3]
         e = e[:, :, diffY // 2: e.size()[2] - diffY // 2, diffX // 2: e.size()[3] - diffX // 2]
+        # print("End, e.size:",e.shape, ", d.size:", d.shape)
+
         cat = torch.cat([e, d], dim = 1)
         out = self.block(cat)
         return out
@@ -72,13 +75,16 @@ class UNet(nn.Module):
             # print(f"memory allocated - 1: {torch.cuda.memory_allocated() / 1024**2:.2f} MB")
             x = encode_block(x)
             encode_inter_result.append(x)
+            # print("encode layer:", x.shape)
             x = self.conv_pool(x)
 
         x = self.bottleneck(x)
+        # print("bottleneck layer:", x.shape)
         assert(len(encode_inter_result)==len(self.conv_decode_list))
         for decode_block in self.conv_decode_list:
-            # print(f"memory allocated - 1: {torch.cuda.memory_allocated() / 1024**2:.2f} MB")
+            # print(f"memory allocated: {torch.cuda.memory_allocated() / 1024**2:.2f} MB")
             x = decode_block(encode_inter_result[-1], x)
+            # print("decode_block layer:", x.shape)
             encode_inter_result.pop()
 
         x = self.final_layer(x)

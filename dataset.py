@@ -3,75 +3,60 @@ from torchvision import transforms
 import torch
 import os
 from enum import Enum
+from utils.timecost import get_time
+import numpy as np
+from torch.utils.data import DataLoader
 
+def channel_expansion(image):
+    image_array = np.array(image)
+    # Get image dimensions
+    height, width = image_array.shape
+    # Initialize a 21-channel array with zeros
+    one_hot = np.zeros((height, width, 21), dtype=np.uint8)
 
-class Color(Enum):
-    SKY = 1
-    GREEN = 2
-    BLUE = 3
+    # Set the corresponding channel to 1 for each pixel
+    for i in range(21):
+        one_hot[:, :, i] = (image_array == i).astype(np.uint8)
 
-def get_specific_files(folder_path, extensions=('.jpg', '.png', '.jpeg')):
-    """获取特定扩展名的文件"""
-    if not os.path.isdir(folder_path):
-        raise ValueError("提供的路径不是一个有效的文件夹")
-    file_list = []
-    for root, dirs, files in os.walk(folder_path):
-        for file in files:
-            if file.lower().endswith(extensions):
-                file_list.append(os.path.join(root, file))
-                # file_list.append(file)
-    return sorted(file_list)
+    return one_hot
 
-def compare(path_str1, path_str2):
-    name1 = path_str1.split("/")[-1].split(".")[0]
-    name2 = path_str2.split("/")[-1].split(".")[0]
-    if name1 == name2:
-        return 0
-    elif name1 > name2:
-        return 1
-    else:
-        return -1
 
 class MyDataset(torch.utils.data.Dataset):
-    def __init__(self, image_directory, label_directory, transform=None):
+    def __init__(self, image_directory, label_directory):
         super(MyDataset, self).__init__()
-        image_names_raw = get_specific_files(image_directory)
-        label_names_raw = get_specific_files(label_directory)
+        image_names = [f for f in os.listdir(image_directory)
+                       if f.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp'))]
+        label_names = [f for f in os.listdir(label_directory)
+                       if f.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp'))]
+        images_PIL = [Image.open(os.path.join(image_directory, img_name)).convert('RGB') for img_name in image_names]
+        labels_PIL = [Image.open(os.path.join(label_directory, label_name)).convert('L') for label_name in label_names]
 
-        self.image_names = []
-        self.label_names = []
-        image_num = len(image_names_raw)
-        label_num = len(label_names_raw)
-        i = 0
-        j = 0
-        while i<image_num and j < label_num:
-            if compare(image_names_raw[i], label_names_raw[j]) == 0:
-                self.image_names.append(image_names_raw[i])
-                self.label_names.append(label_names_raw[j])
-                i+=1
-                j+=1
-            elif compare(image_names_raw[i], label_names_raw[j]) > 0:
-                j+=1
-            else:
-                i +=1
-        self.transform = transform
+        image_transform = transforms.ToTensor()
+        label_transform = transforms.PILToTensor()
+        self.images = [image_transform(image) for image in images_PIL]
+        self.labels = [label_transform(label) for label in labels_PIL]
+        # max_item = [label.max().item() for label in self.labels]
+        # min_item = [label.min().item() for label in self.labels]
+        # result = [(index, value) for index, value in enumerate(max_item) if value > 20]
 
+    # @get_time
     def __getitem__(self, item):
-        img_name = self.image_names[item]
-        label_name = self.label_names[item]
-        img = Image.open(img_name).convert('RGB')
-        label = Image.open(label_name).convert('RGB')
-        if self.transform is not None:
-            img = self.transform(img)
-            label = self.transform(label)
+        img = self.images[item]
+        label = self.labels[item]
         return img, label
 
     def __len__(self):
-        return len(self.image_names)
+        return len(self.images)
 
 if __name__=='__main__':
-    root_img = "./Rellis_3D_pylon_camera_node"
-    root_label = "./Rellis_3D_pylon_camera_node_label_color"
-    data_tf = transforms.Compose([transforms.ToTensor()])
-    train_data = MyDataset(root_img, root_label, transform=data_tf)
-
+    root_img = "./Rellis_3D_pylon_camera_node_480/train"
+    root_label = "./Rellis_3D_pylon_camera_node_label_color_480/train"
+    data_tf = transforms.Compose([
+        # transforms.Lambda(lambda img: transforms.Resize(
+        #     (img.height // 2, img.width // 2))(img)),
+        transforms.ToTensor()]
+    )
+    train_data = MyDataset(root_img, root_label)
+    train_data_loader = DataLoader(train_data, batch_size=1, shuffle=True)
+    image_test, label_test = MyDataset[1]
+    print("Test")
