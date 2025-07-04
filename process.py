@@ -28,7 +28,7 @@ if __name__=='__main__':
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     # model = unet.UNet(in_channel=3, contract_channels=[64,128,256,512], bottle_channel=1024,  out_channel=3)
-    model = unet.UNet(in_channel=3, contract_channels=[8, 16, 32], bottle_channel=64, out_channel=21)
+    model = unet.UNet(in_channel=3, contract_channels=[16, 32, 64], bottle_channel=128, out_channel=21)
     model.to(device)
     logger = SummaryWriter("./log")
 

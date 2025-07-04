@@ -25,12 +25,12 @@ def train_model(model, logger, train_dataloader, eval_dataloader, device, num_ep
             scaler.step(optimizer)
             scaler.update()
             total_train_step += 1
-            if total_train_step % 9 == 0:
+            if (total_train_step + 1) % 10 == 0:
                 print(f'Epoch [{epoch + 1}/{num_epochs}], train step: {total_train_step}, loss: {loss.item():.4f}')
                 logger.add_scalar('train loss', loss.item(), total_train_step)
         eval_model(model, logger, eval_dataloader, device, total_test_step)
-        if total_test_step % 9 == 0:
-                torch.save(model, "model_{}".format(total_test_step))
+        if (total_test_step + 1) % 10 == 0:
+                torch.save(model.state_dict(), "model_{}.pth".format(total_test_step))
         total_test_step += 1
 
 
