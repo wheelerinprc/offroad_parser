@@ -61,6 +61,7 @@ def save_result_image(predict_mask, work_dir, input_image, original_size=(1200, 
     date_str = current_date.strftime("%Y-%m-%d-%h-%m")
     output_image_name = "output_" + date_str + ".png"
     output_image_path = os.path.join(work_dir, output_image_name)
+    # result_image = cv2.cvtColor(result_image, cv2.COLOR_RGB2BGR)
     cv2.imwrite(output_image_path, result_image)
 
     input_image = np.array(input_image)
@@ -70,6 +71,7 @@ def save_result_image(predict_mask, work_dir, input_image, original_size=(1200, 
     blended = cv2.addWeighted(result_image, 0.3, input_image, 0.7, 0)
     mix_image_name = "mix_" + date_str + ".png"
     mix_image_path = os.path.join(work_dir, mix_image_name)
+    # blended = cv2.cvtColor(blended, cv2.COLOR_RGB2BGR)
     cv2.imwrite(mix_image_path, blended)
 
 

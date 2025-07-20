@@ -17,3 +17,7 @@ class JsonParser:
         self.bottle_channel = config.get("bottle_channel", 128)
         self.class_num = config.get("class_num", 21)
         self.model_name = config.get("model_name", "model.pth")
+        self.class_weight = config.get("class_weight", [])
+        if len(self.class_weight) != 0 and len(self.class_weight) != self.class_num:
+            print(f"Error! class number {self.class_num} is not equal to {len(self.class_weight)}")
+            exit(-1)

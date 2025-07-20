@@ -9,7 +9,7 @@ from torchvision import transforms
 import unet
 from torch.utils.tensorboard import SummaryWriter
 import train
-from torchvision import transforms
+from utils.dataset_check import check_dataset
 
 if __name__=='__main__':
     train_images = "./Rellis_3D_pylon_camera_node_480/train"
@@ -22,11 +22,15 @@ if __name__=='__main__':
         exit(-1)
     working_dir = sys.argv[1]
     print("Working directory: ", working_dir)
+    if not os.path.exists(working_dir):
+        print("Error - Working directory does not exist")
+        exit(-1)
     json_parse = JsonParser(working_dir)
-
 
     print("Dataset reading ...")
     train_data = dataset.MyDataset(train_images, train_labels)
+    # check_dataset(train_data, working_dir)
+
     train_loader = DataLoader(train_data, batch_size=json_parse.train_batch, shuffle=True)
     val_data = dataset.MyDataset(val_images, val_labels)
     val_loader = DataLoader(val_data, batch_size=1, shuffle=True)
@@ -46,6 +50,6 @@ if __name__=='__main__':
                       out_channel=json_parse.class_num)
     model.to(device)
 
-    train.train_model(model, logger, train_loader, val_loader, device, working_dir, json_parse.model_name)
+    train.train_model(model, logger, train_loader, val_loader, device, working_dir, json_parse, num_epochs=100)
     logger.close()
 

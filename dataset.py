@@ -28,6 +28,8 @@ class MyDataset(torch.utils.data.Dataset):
                        if f.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp'))]
         label_names = [f for f in os.listdir(label_directory)
                        if f.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp'))]
+        image_names = sorted(image_names)
+        label_names = sorted(label_names)
         images_PIL = [Image.open(os.path.join(image_directory, img_name)).convert('RGB') for img_name in image_names]
         labels_PIL = [Image.open(os.path.join(label_directory, label_name)).convert('L') for label_name in label_names]
 
