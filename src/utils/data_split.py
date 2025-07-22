@@ -78,10 +78,10 @@ def find_target_image(label_folder, image_folder):
 
 if __name__ == "__main__":
     # 设置路径(请根据实际情况修改)
-    label_dir = "../Rellis_3D_pylon_camera_node_label_color_480"  # 原始图片文件夹
-    image_dir = "../Rellis_3D_pylon_camera_node_480"  # 原始图片文件夹
-    train_dir = "../Rellis_3D_pylon_camera_node_label_color_480/train"  # 训练集文件夹
-    val_dir = "../Rellis_3D_pylon_camera_node_label_color_480/val"  # 验证集文件夹
+    label_dir = "../../Rellis_3D_pylon_camera_node_label_color_480"  # 原始图片文件夹
+    image_dir = "../../Rellis_3D_pylon_camera_node_480"  # 原始图片文件夹
+    train_dir = "../../Rellis_3D_pylon_camera_node_label_color_480/train"  # 训练集文件夹
+    val_dir = "../../Rellis_3D_pylon_camera_node_label_color_480/val"  # 验证集文件夹
 
     # 调用函数进行分割
     split_images(label_dir, train_dir, val_dir)

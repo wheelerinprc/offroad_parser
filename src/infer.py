@@ -191,8 +191,8 @@ if __name__=='__main__':
         output = model(processed_image)
     output_host = output.cpu()
 
-    label_image = cv2.imread("/home/yyu/Desktop/20250418_UNet/Rellis_3D_pylon_camera_node_label_color_480/train/frame001804-1581623970_750.png",
-                         cv2.IMREAD_GRAYSCALE)
+    label_image = cv2.imread("/Rellis_3D_pylon_camera_node_label_color_480/train/frame001804-1581623970_750.png",
+                             cv2.IMREAD_GRAYSCALE)
     # transforms = transforms.PILToTensor()
     # output_host = transforms(output_host)
     # output_host = F.one_hot(output_host.squeeze(0).long(), num_classes=json_parse.class_num).float()

@@ -1,7 +1,6 @@
 import os
 from PIL import Image
-import numpy as np
-from utils.preprocess import preprocess
+from src.utils.preprocess import preprocess
 
 def process_images(input_folder, output_folder, target="image"):
     if not os.path.exists(output_folder):

@@ -1,15 +1,12 @@
 import os.path
 import sys
 from utils.parse_json import JsonParser
-from fontTools.misc.cython import returns
 import dataset
 import torch
 from torch.utils.data import DataLoader
-from torchvision import transforms
 import unet
 from torch.utils.tensorboard import SummaryWriter
 import train
-from utils.dataset_check import check_dataset
 
 if __name__=='__main__':
     train_images = "./Rellis_3D_pylon_camera_node_480/train"
