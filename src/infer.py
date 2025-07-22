@@ -191,7 +191,7 @@ if __name__=='__main__':
         output = model(processed_image)
     output_host = output.cpu()
 
-    label_image = cv2.imread("/Rellis_3D_pylon_camera_node_label_color_480/train/frame001804-1581623970_750.png",
+    label_image = cv2.imread("./Rellis_3D_pylon_camera_node_label_color_480/train/frame001804-1581623970_750.png",
                              cv2.IMREAD_GRAYSCALE)
     # transforms = transforms.PILToTensor()
     # output_host = transforms(output_host)

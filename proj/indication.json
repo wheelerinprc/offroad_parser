@@ -1,0 +1,84 @@
+{
+    "grass": {
+        "precision": 0.8709,
+        "recall": 0.7861,
+        "accuracy": 0.8165,
+        "iou": 0.7041,
+        "dice": 0.8264,
+        "hausdorff_distance": 90.4268
+    },
+    "tree": {
+        "precision": 0.8586,
+        "recall": 0.7408,
+        "accuracy": 0.9947,
+        "iou": 0.6603,
+        "dice": 0.7954,
+        "hausdorff_distance": 439.3689
+    },
+    "sky": {
+        "precision": 0.9806,
+        "recall": 0.95,
+        "accuracy": 0.9944,
+        "iou": 0.9325,
+        "dice": 0.965,
+        "hausdorff_distance": 87.0
+    },
+    "person": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "accuracy": 1.0,
+        "iou": 0.0,
+        "dice": 0.0,
+        "hausdorff_distance": 0
+    },
+    "bush": {
+        "precision": 0.7044,
+        "recall": 0.7539,
+        "accuracy": 0.8619,
+        "iou": 0.5728,
+        "dice": 0.7283,
+        "hausdorff_distance": 146.4923
+    },
+    "concrete": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "accuracy": 0.9957,
+        "iou": 0.0,
+        "dice": 0.0,
+        "hausdorff_distance": 219.1461
+    },
+    "barrier": {
+        "precision": 0.7741,
+        "recall": 0.7522,
+        "accuracy": 0.9852,
+        "iou": 0.6168,
+        "dice": 0.763,
+        "hausdorff_distance": 37.6431
+    },
+    "puddle": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "accuracy": 0.9952,
+        "iou": 0.0,
+        "dice": 0.0,
+        "hausdorff_distance": 379.0158
+    },
+    "mud": {
+        "precision": 0.4386,
+        "recall": 0.774,
+        "accuracy": 0.9219,
+        "iou": 0.3888,
+        "dice": 0.5599,
+        "hausdorff_distance": 176.706
+    },
+    "rubble": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "accuracy": 0.9998,
+        "iou": 0.0,
+        "dice": 0.0,
+        "hausdorff_distance": 0
+    },
+    "mean_iou": 0.3875,
+    "mean_dice": 0.4638
+}
